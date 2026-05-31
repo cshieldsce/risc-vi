@@ -7,11 +7,15 @@ A 5-stage pipelined RISC-V core (RV32I) written in SystemVerilog, verified again
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](https://opensource.org/licenses/MIT)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://cshieldsce.github.io/riscv-5i/)
 
-![Complete Pipelined Datapath](docs/images/pipeline_complete.svg)
+<p align="center">
+  <img src="docs/images/pipeline_complete.svg" alt="riscv-5i datapath: five pipeline stages with forwarding paths and hazard logic">
+</p>
 
-![PYNQ-Z2 running the Fibonacci test program; LEDs cycle through 1, 2, 3, 5, 8, 13, 21, 34](docs/images/fpga-fib-test-demo.gif)
-
-*The core running a Fibonacci program on a PYNQ-Z2. The four LEDs show successive terms, wrapping modulo 16 once values exceed 15.*
+<p align="center">
+  <img src="docs/images/fpga-fib-test-demo.gif" alt="PYNQ-Z2 running Fibonacci: LEDs cycle 1, 2, 3, 5, 8, 13, 21, 34" width="480">
+  <br>
+  <em>Running a Fibonacci program on the PYNQ-Z2; LEDs wrap mod 16.</em>
+</p>
 
 ## What this is
 
