@@ -7,20 +7,20 @@ permalink: /architecture/stages/
 
 # Pipeline stages
 
-Each pipeline stage is its own SystemVerilog module under [`src/`](https://github.com/cshieldsce/risc-vi/tree/main/src). Top-level wiring lives in [`pipelined_cpu.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/pipelined_cpu.sv). This page walks through what each stage does, why the logic looks the way it does, and shows the RTL that implements it. The [Hazards & Forwarding]({{ '/architecture/hazards/' | relative_url }}) page covers the cross-stage logic (forwarding paths, stalls, flushes) that keeps the pipeline correct.
+Each pipeline stage is its own SystemVerilog module under [`src/`](https://github.com/cshieldsce/riscv-5i/tree/main/src). Top-level wiring lives in [`pipelined_cpu.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/pipelined_cpu.sv). This page walks through what each stage does, why the logic looks the way it does, and shows the RTL that implements it. The [Hazards & Forwarding]({{ '/architecture/hazards/' | relative_url }}) page covers the cross-stage logic (forwarding paths, stalls, flushes) that keeps the pipeline correct.
 
 ## The complete datapath {#overview}
 
 <div class="img-wrapper diagram">
-  <img src="{{ '/images/pipeline_complete.svg' | relative_url }}" alt="Complete risc-vi datapath with pipeline registers, forwarding paths, and hazard detection logic">
-  <span class="caption">Figure 1: The full datapath, including pipeline registers, the forwarding multiplexers in EX, and the hazard-detection wires that drive stalls and flushes. Based on Patterson & Hennessy Figure 4.51 and instantiated in <a href="https://github.com/cshieldsce/risc-vi/blob/main/src/pipelined_cpu.sv"><code>src/pipelined_cpu.sv</code></a>.</span>
+  <img src="{{ '/images/pipeline_complete.svg' | relative_url }}" alt="Complete riscv-5i datapath with pipeline registers, forwarding paths, and hazard detection logic">
+  <span class="caption">Figure 1: The full datapath, including pipeline registers, the forwarding multiplexers in EX, and the hazard-detection wires that drive stalls and flushes. Based on Patterson & Hennessy Figure 4.51 and instantiated in <a href="https://github.com/cshieldsce/riscv-5i/blob/main/src/pipelined_cpu.sv"><code>src/pipelined_cpu.sv</code></a>.</span>
 </div>
 
 <div class="pipeline-arrow"></div>
 
 ## Instruction Fetch (IF) {#fetch}
 
-Implemented in [`src/if_stage.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/if_stage.sv). The IF stage holds the program counter, picks the address of the next instruction, and emits the current PC plus `PC+4` to the next stage.
+Implemented in [`src/if_stage.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/if_stage.sv). The IF stage holds the program counter, picks the address of the next instruction, and emits the current PC plus `PC+4` to the next stage.
 
 <div class="side-by-side">
 <div class="text-content" markdown="1">
@@ -90,7 +90,7 @@ assign instruction_out = instruction_in;
 
 ## Instruction Decode (ID) {#decode}
 
-Implemented in [`src/id_stage.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/id_stage.sv). The ID stage chops the 32-bit instruction word into its fields, generates the control signals for downstream stages, reads `rs1` and `rs2` from the register file, and produces the sign-extended immediate via [`src/imm_gen.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/imm_gen.sv).
+Implemented in [`src/id_stage.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/id_stage.sv). The ID stage chops the 32-bit instruction word into its fields, generates the control signals for downstream stages, reads `rs1` and `rs2` from the register file, and produces the sign-extended immediate via [`src/imm_gen.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/imm_gen.sv).
 
 <div class="side-by-side">
 <div class="text-content" markdown="1">
@@ -125,7 +125,7 @@ Instruction formats and field positions: <em>RISC-V Unprivileged ISA Specificati
 
 ## Execute (EX) {#execute}
 
-Implemented in [`src/ex_stage.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/ex_stage.sv). EX is where every RV32I arithmetic, logical, comparison, and shift operation happens, and where branch direction gets resolved. It is also the consumer of the forwarding paths from MEM and WB.
+Implemented in [`src/ex_stage.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/ex_stage.sv). EX is where every RV32I arithmetic, logical, comparison, and shift operation happens, and where branch direction gets resolved. It is also the consumer of the forwarding paths from MEM and WB.
 
 <div class="side-by-side">
 <div class="text-content" markdown="1">
@@ -206,7 +206,7 @@ The ALU computes both signed and unsigned <code>SLT</code>-style results; bit 0 
 
 ## Memory Access (MEM) {#memory}
 
-Implemented in [`src/mem_stage.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/mem_stage.sv). MEM presents the ALU result as an address to the data memory and either drives a word in (for stores) or latches a word out (for loads).
+Implemented in [`src/mem_stage.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/mem_stage.sv). MEM presents the ALU result as an address to the data memory and either drives a word in (for stores) or latches a word out (for loads).
 
 <div class="side-by-side">
 <div class="text-content" markdown="1">
@@ -239,7 +239,7 @@ endfunction
 assign dmem_be = get_byte_enable(ex_mem_funct3, ex_mem_alu_result[1:0]);
 ```
 
-The data memory ([`src/data_memory.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/data_memory.sv)) consumes `dmem_be` as its byte-enable per cell. Sign-extension (for `LB`/`LH`) vs. zero-extension (for `LBU`/`LHU`) is handled on the read-data path by selecting between sign-extended and zero-extended views of the addressed bytes before the value propagates to the MEM/WB register.
+The data memory ([`src/data_memory.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/data_memory.sv)) consumes `dmem_be` as its byte-enable per cell. Sign-extension (for `LB`/`LH`) vs. zero-extension (for `LBU`/`LHU`) is handled on the read-data path by selecting between sign-extended and zero-extended views of the addressed bytes before the value propagates to the MEM/WB register.
 
 </div>
 
@@ -253,7 +253,7 @@ The data memory ([`src/data_memory.sv`](https://github.com/cshieldsce/risc-vi/bl
 
 ## Writeback (WB) {#writeback}
 
-Implemented in [`src/wb_stage.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/wb_stage.sv). WB picks which value lands in the destination register using `wb_mux_sel`.
+Implemented in [`src/wb_stage.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/wb_stage.sv). WB picks which value lands in the destination register using `wb_mux_sel`.
 
 <div class="side-by-side">
 <div class="text-content" markdown="1">

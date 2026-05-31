@@ -1,4 +1,4 @@
-title: "risc-vi"
+title: "riscv-5i"
 tagline: "A 5-stage pipelined RV32I core in SystemVerilog"
 author: Charlie Shields
 description: >
@@ -8,10 +8,10 @@ description: >
 # Production deploy URL. Used by jekyll-seo-tag and jekyll-sitemap for
 # canonical URLs, og:url, og:image, twitter:image, and sitemap.xml.
 # Default below assumes GitHub Pages project deploy at
-# https://cshieldsce.github.io/risc-vi/. If you use a custom domain
+# https://cshieldsce.github.io/riscv-5i/. If you use a custom domain
 # (CNAME), set url to the domain and baseurl to "".
 url: "https://cshieldsce.github.io"
-baseurl: "/risc-vi"
+baseurl: "/riscv-5i"
 permalink: pretty
 
 # Single source of truth for every number that appears on the site.

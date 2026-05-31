@@ -1,11 +1,11 @@
-# risc-vi
+# riscv-5i
 
 A 5-stage pipelined RISC-V core (RV32I) written in SystemVerilog, verified against the RISCOF compliance suite, and running on a Xilinx Zynq-7000 FPGA.
 
-[![CI Status](https://github.com/cshieldsce/risc-vi/actions/workflows/ci.yml/badge.svg)](https://github.com/cshieldsce/risc-vi/actions/workflows/ci.yml)
-[![Compliance Status](https://github.com/cshieldsce/risc-vi/actions/workflows/compliance.yml/badge.svg)](https://github.com/cshieldsce/risc-vi/actions/workflows/compliance.yml)
+[![CI Status](https://github.com/cshieldsce/riscv-5i/actions/workflows/ci.yml/badge.svg)](https://github.com/cshieldsce/riscv-5i/actions/workflows/ci.yml)
+[![Compliance Status](https://github.com/cshieldsce/riscv-5i/actions/workflows/compliance.yml/badge.svg)](https://github.com/cshieldsce/riscv-5i/actions/workflows/compliance.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](https://opensource.org/licenses/MIT)
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://cshieldsce.github.io/risc-vi/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://cshieldsce.github.io/riscv-5i/)
 
 ![Complete Pipelined Datapath](docs/images/pipeline_complete.svg)
 
@@ -19,14 +19,14 @@ I scoped this to RV32I and stopped. No M extension (no hardware multiply or divi
 
 ## Documentation
 
-**[Full documentation site](https://cshieldsce.github.io/risc-vi/)**
+**[Full documentation site](https://cshieldsce.github.io/riscv-5i/)**
 
-- [Architecture overview](https://cshieldsce.github.io/risc-vi/architecture/): datapath, pipeline diagram, design tradeoffs
-- [Pipeline stages](https://cshieldsce.github.io/risc-vi/architecture/stages/): per-stage RTL with explanations
-- [Hazards & forwarding](https://cshieldsce.github.io/risc-vi/architecture/hazards/): timing diagrams for every hazard case
-- [Verification](https://cshieldsce.github.io/risc-vi/verification/): RISCOF results and a bring-up postmortem
-- [FPGA](https://cshieldsce.github.io/risc-vi/fpga/): synthesis numbers, timing closure, hardware demo
-- [Setup](https://cshieldsce.github.io/risc-vi/setup/): toolchain install and build instructions
+- [Architecture overview](https://cshieldsce.github.io/riscv-5i/architecture/): datapath, pipeline diagram, design tradeoffs
+- [Pipeline stages](https://cshieldsce.github.io/riscv-5i/architecture/stages/): per-stage RTL with explanations
+- [Hazards & forwarding](https://cshieldsce.github.io/riscv-5i/architecture/hazards/): timing diagrams for every hazard case
+- [Verification](https://cshieldsce.github.io/riscv-5i/verification/): RISCOF results and a bring-up postmortem
+- [FPGA](https://cshieldsce.github.io/riscv-5i/fpga/): synthesis numbers, timing closure, hardware demo
+- [Setup](https://cshieldsce.github.io/riscv-5i/setup/): toolchain install and build instructions
 
 ## Quick start
 
@@ -36,20 +36,20 @@ sudo apt-get install -y iverilog gtkwave python3-pip git gcc-riscv64-unknown-elf
 pip3 install riscof
 
 # Clone and bootstrap
-git clone https://github.com/cshieldsce/risc-vi.git
-cd risc-vi
+git clone https://github.com/cshieldsce/riscv-5i.git
+cd riscv-5i
 ./setup_project.sh
 
 # Run the compliance suite
 ./test/verification/run_compliance.sh
 ```
 
-Full setup instructions: [Setup page](https://cshieldsce.github.io/risc-vi/setup/).
+Full setup instructions: [Setup page](https://cshieldsce.github.io/riscv-5i/setup/).
 
 ## Project layout
 
 ```
-risc-vi/
+riscv-5i/
 ├── src/                  # SystemVerilog RTL
 │   ├── pipelined_cpu.sv  # top-level CPU
 │   ├── if_stage.sv       # IF, ID, EX, MEM, WB modules

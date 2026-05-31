@@ -7,7 +7,7 @@ permalink: /architecture/
 
 # Architecture overview
 
-The `risc-vi` core is a classic Patterson & Hennessy 5-stage RV32I pipeline: instruction fetch, decode, execute, memory access, and writeback, separated by pipeline registers. This page is the overview. [Pipeline Stages]({{ '/architecture/stages/' | relative_url }}) walks through each stage with the actual SystemVerilog. [Hazards & Forwarding]({{ '/architecture/hazards/' | relative_url }}) covers how I keep the pipeline correct under data and control hazards.
+The `riscv-5i` core is a classic Patterson & Hennessy 5-stage RV32I pipeline: instruction fetch, decode, execute, memory access, and writeback, separated by pipeline registers. This page is the overview. [Pipeline Stages]({{ '/architecture/stages/' | relative_url }}) walks through each stage with the actual SystemVerilog. [Hazards & Forwarding]({{ '/architecture/hazards/' | relative_url }}) covers how I keep the pipeline correct under data and control hazards.
 
 I leaned on two references throughout the project: the RISC-V unprivileged ISA specification, and *Computer Organization and Design: The Hardware/Software Interface (RISC-V Edition)* by Patterson & Hennessy, especially chapter 4. Specific section pointers are in the [References](#references) list at the bottom.
 
@@ -33,7 +33,7 @@ Pipelining does not make a single instruction finish faster. The latency from "i
 </div>
 
 <div class="img-wrapper diagram">
-  <img src="{{ '/images/pipeline_basic.png' | relative_url }}" alt="Block-level view of the risc-vi datapath showing the components per stage">
+  <img src="{{ '/images/pipeline_basic.png' | relative_url }}" alt="Block-level view of the riscv-5i datapath showing the components per stage">
   <span class="caption">Figure 2: The same datapath with the major blocks per stage (PC + instruction memory in IF, register file + control in ID, ALU in EX, data memory in MEM, writeback mux in WB).</span>
 </div>
 
@@ -41,9 +41,9 @@ These two figures are the conceptual reference. The [Pipeline Stages]({{ '/archi
 
 ## What the core does and doesn't do {#scope}
 
-`risc-vi` implements the RV32I base integer ISA: arithmetic, logical, shifts, comparisons, loads and stores (including the byte and half-word variants with sign- or zero-extension), unconditional branches (JAL, JALR), and the six conditional branches (BEQ, BNE, BLT, BGE, BLTU, BGEU). LUI and AUIPC route through the ALU using small tricks documented on the [Stages]({{ '/architecture/stages/' | relative_url }}) page.
+`riscv-5i` implements the RV32I base integer ISA: arithmetic, logical, shifts, comparisons, loads and stores (including the byte and half-word variants with sign- or zero-extension), unconditional branches (JAL, JALR), and the six conditional branches (BEQ, BNE, BLT, BGE, BLTU, BGEU). LUI and AUIPC route through the ALU using small tricks documented on the [Stages]({{ '/architecture/stages/' | relative_url }}) page.
 
-It does **not** implement the M extension (no hardware multiply or divide), any CSRs (the `SYSTEM` and `FENCE` opcodes both decode as NOPs in [`src/control_unit.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/control_unit.sv)), any cache, or exception or interrupt handling. Test completion is signaled by a memory-mapped `tohost` address at `0x8000_1000` that the simulation harness watches; on the FPGA, the 4-bit memory-mapped LED register at `0x8000_0000` is the only I/O.
+It does **not** implement the M extension (no hardware multiply or divide), any CSRs (the `SYSTEM` and `FENCE` opcodes both decode as NOPs in [`src/control_unit.sv`](https://github.com/cshieldsce/riscv-5i/blob/main/src/control_unit.sv)), any cache, or exception or interrupt handling. Test completion is signaled by a memory-mapped `tohost` address at `0x8000_1000` that the simulation harness watches; on the FPGA, the 4-bit memory-mapped LED register at `0x8000_0000` is the only I/O.
 
 ## References {#references}
 
