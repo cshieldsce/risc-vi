@@ -6,7 +6,7 @@ permalink: /verification/
 
 # Verification
 
-I verified `riscv-5` against the [RISCOF](https://riscof.readthedocs.io/) compliance suite and a hand-written regression set, and validated the live core on a PYNQ-Z2 with a Vivado ILA. This page covers both: the compliance matrix at the top, and one substantive postmortem at the bottom from the FPGA bring-up.
+I verified `risc-vi` against the [RISCOF](https://riscof.readthedocs.io/) compliance suite and a hand-written regression set, and validated the live core on a PYNQ-Z2 with a Vivado ILA. This page covers both: the compliance matrix at the top, and one substantive postmortem at the bottom from the FPGA bring-up.
 
 {% include results-strip.html %}
 
@@ -14,7 +14,7 @@ I verified `riscv-5` against the [RISCOF](https://riscof.readthedocs.io/) compli
 
 RISCOF runs the [official RISC-V architectural test suite](https://github.com/riscv-non-isa/riscv-arch-test) against the core under test and the [Spike](https://github.com/riscv-software-src/riscv-isa-sim) reference simulator side by side. Each test produces a signature, the two signatures are diffed, and a test passes only if the bytes match exactly. The core has no leeway to "almost" implement an instruction; the byte diff catches subtle bugs that a self-test loop would miss.
 
-The DUT and golden-model plugins for this project live under [`test/verification/compliance/`](https://github.com/cshieldsce/riscv-5/tree/main/test/verification/compliance), and the runner is [`run_compliance.sh`](https://github.com/cshieldsce/riscv-5/blob/main/test/verification/compliance/run_compliance.sh).
+The DUT and golden-model plugins for this project live under [`test/verification/compliance/`](https://github.com/cshieldsce/risc-vi/tree/main/test/verification/compliance), and the runner is [`run_compliance.sh`](https://github.com/cshieldsce/risc-vi/blob/main/test/verification/compliance/run_compliance.sh).
 
 ### Compliance matrix {#matrix}
 
@@ -29,12 +29,12 @@ Every push to `main` triggers the full RISCOF suite and the regression testbench
 
 <div class="callout note"><span class="title">CI status</span>
 <ul>
-  <li><strong>Regression:</strong> <a href="https://github.com/cshieldsce/riscv-5/actions/workflows/ci.yml"><img src="https://github.com/cshieldsce/riscv-5/actions/workflows/ci.yml/badge.svg" alt="CI Status"></a></li>
-  <li><strong>Compliance:</strong> <a href="https://github.com/cshieldsce/riscv-5/actions/workflows/compliance.yml"><img src="https://github.com/cshieldsce/riscv-5/actions/workflows/compliance.yml/badge.svg" alt="Compliance Status"></a></li>
+  <li><strong>Regression:</strong> <a href="https://github.com/cshieldsce/risc-vi/actions/workflows/ci.yml"><img src="https://github.com/cshieldsce/risc-vi/actions/workflows/ci.yml/badge.svg" alt="CI Status"></a></li>
+  <li><strong>Compliance:</strong> <a href="https://github.com/cshieldsce/risc-vi/actions/workflows/compliance.yml"><img src="https://github.com/cshieldsce/risc-vi/actions/workflows/compliance.yml/badge.svg" alt="Compliance Status"></a></li>
 </ul>
 </div>
 
-In addition to RISCOF, I wrote two SystemVerilog testbenches that exercise specific microarchitectural behavior the compliance suite doesn't directly target: [`test/tb/pipelined_cpu_tb.sv`](https://github.com/cshieldsce/riscv-5/blob/main/test/tb/pipelined_cpu_tb.sv) walks structured instruction sequences through every forwarding and stall case, and [`test/tb/fib_test_tb.sv`](https://github.com/cshieldsce/riscv-5/blob/main/test/tb/fib_test_tb.sv) runs a Fibonacci program end-to-end (the same program that drives the FPGA demo).
+In addition to RISCOF, I wrote two SystemVerilog testbenches that exercise specific microarchitectural behavior the compliance suite doesn't directly target: [`test/tb/pipelined_cpu_tb.sv`](https://github.com/cshieldsce/risc-vi/blob/main/test/tb/pipelined_cpu_tb.sv) walks structured instruction sequences through every forwarding and stall case, and [`test/tb/fib_test_tb.sv`](https://github.com/cshieldsce/risc-vi/blob/main/test/tb/fib_test_tb.sv) runs a Fibonacci program end-to-end (the same program that drives the FPGA demo).
 
 ## Postmortems {#postmortems}
 

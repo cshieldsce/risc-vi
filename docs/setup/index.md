@@ -6,7 +6,7 @@ permalink: /setup/
 
 # Setup
 
-Quickstart for building, simulating, and synthesizing `riscv-5`. Tested on Ubuntu 22.04 and Fedora; other Linux distros should work with equivalent package names.
+Quickstart for building, simulating, and synthesizing `risc-vi`. Tested on Ubuntu 22.04 and Fedora; other Linux distros should work with equivalent package names.
 
 ## Dependencies {#dependencies}
 
@@ -24,8 +24,8 @@ Vivado is a separate install from Xilinx (free WebPACK edition is enough for the
 ## Clone and bootstrap {#clone}
 
 ```bash
-git clone https://github.com/cshieldsce/riscv-5.git
-cd riscv-5
+git clone https://github.com/cshieldsce/risc-vi.git
+cd risc-vi
 ./setup_project.sh
 ```
 
@@ -54,7 +54,7 @@ vvp sim.out +TEST=../mem/fib_test.mem
 gtkwave waveform.vcd
 ```
 
-The `+TEST=` plus-arg points at a `.mem` initialization file under [`test/mem/`](https://github.com/cshieldsce/riscv-5/tree/main/test/mem). Drop in any RV32I program assembled to that format and the testbench runs it through the pipeline; the VCD writes to `waveform.vcd` for GTKWave.
+The `+TEST=` plus-arg points at a `.mem` initialization file under [`test/mem/`](https://github.com/cshieldsce/risc-vi/tree/main/test/mem). Drop in any RV32I program assembled to that format and the testbench runs it through the pipeline; the VCD writes to `waveform.vcd` for GTKWave.
 
 To compile and run from the repo root instead of `test/tb`:
 
@@ -71,7 +71,7 @@ The full RISCOF suite against Spike runs end-to-end in one script:
 ./test/verification/run_compliance.sh
 ```
 
-The HTML report lands in `test/verification/riscof_work/report.html`. Plugins for the DUT and golden model live under [`test/verification/compliance/`](https://github.com/cshieldsce/riscv-5/tree/main/test/verification/compliance) if you want to swap out targets.
+The HTML report lands in `test/verification/riscof_work/report.html`. Plugins for the DUT and golden model live under [`test/verification/compliance/`](https://github.com/cshieldsce/risc-vi/tree/main/test/verification/compliance) if you want to swap out targets.
 
 ## FPGA build {#fpga-deployment}
 
@@ -82,4 +82,4 @@ cd fpga
 vivado -mode batch -source create_project.tcl
 ```
 
-From there, synthesize, implement, and program the board through the Vivado GUI or its TCL prompt. The PYNQ-Z2 top-level wiring (LEDs, clock, reset) lives in [`src/pynq_z2_top.sv`](https://github.com/cshieldsce/riscv-5/blob/main/src/pynq_z2_top.sv); the synthesis and timing results are on the [FPGA]({{ '/fpga/' | relative_url }}) page.
+From there, synthesize, implement, and program the board through the Vivado GUI or its TCL prompt. The PYNQ-Z2 top-level wiring (LEDs, clock, reset) lives in [`src/pynq_z2_top.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/pynq_z2_top.sv); the synthesis and timing results are on the [FPGA]({{ '/fpga/' | relative_url }}) page.

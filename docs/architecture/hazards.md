@@ -13,7 +13,7 @@ permalink: /architecture/hazards/
 
 # Hazards & forwarding
 
-A pipelined CPU has multiple instructions in flight at once, and those instructions can step on each other. A later instruction can need a result a producer hasn't yet written back, or a branch can resolve only after instructions fetched behind it have already entered the pipeline. This page documents the cases the core has to handle, the cycle penalty each one costs, and the SystemVerilog that handles them. The cross-stage glue lives in [`src/hazard_unit.sv`](https://github.com/cshieldsce/riscv-5/blob/main/src/hazard_unit.sv) and [`src/forwarding_unit.sv`](https://github.com/cshieldsce/riscv-5/blob/main/src/forwarding_unit.sv).
+A pipelined CPU has multiple instructions in flight at once, and those instructions can step on each other. A later instruction can need a result a producer hasn't yet written back, or a branch can resolve only after instructions fetched behind it have already entered the pipeline. This page documents the cases the core has to handle, the cycle penalty each one costs, and the SystemVerilog that handles them. The cross-stage glue lives in [`src/hazard_unit.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/hazard_unit.sv) and [`src/forwarding_unit.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/forwarding_unit.sv).
 
 <div class="callout note"><span class="title">Cycle indexing in the diagrams below</span>
 The WaveDrom diagrams use 0-indexed cycles, which is the convention in hardware textbooks. Cycle 0 is the first clock cycle in which the first instruction is fetched; an instruction fetched in cycle <code>N</code> is in decode at cycle <code>N+1</code> and in execute at cycle <code>N+2</code>.
@@ -226,7 +226,7 @@ Total worst-case penalty for an ALU-dependent taken branch: 1 cycle (stall) + 2 
 
 ## How the units are wired {#implementation}
 
-### Hazard unit ([`src/hazard_unit.sv`](https://github.com/cshieldsce/riscv-5/blob/main/src/hazard_unit.sv))
+### Hazard unit ([`src/hazard_unit.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/hazard_unit.sv))
 
 The hazard unit watches what's in flight and decides when to freeze stages or insert bubbles.
 
@@ -245,7 +245,7 @@ if (branch_taken_ex) begin
 end
 ```
 
-### Forwarding unit ([`src/forwarding_unit.sv`](https://github.com/cshieldsce/riscv-5/blob/main/src/forwarding_unit.sv))
+### Forwarding unit ([`src/forwarding_unit.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/forwarding_unit.sv))
 
 Priority matters when more than one forwarding source could fire: the EX/MEM result is fresher than the MEM/WB result, so it wins.
 

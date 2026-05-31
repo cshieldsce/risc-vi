@@ -14,7 +14,7 @@ I targeted a Xilinx Zynq-7000 on a Digilent PYNQ-Z2 board for hardware bring-up.
 
 - Target board: {{ site.results.fpga_target }}
 - Toolchain: {{ site.results.toolchain }}
-- Top module: [`src/pynq_z2_top.sv`](https://github.com/cshieldsce/riscv-5/blob/main/src/pynq_z2_top.sv)
+- Top module: [`src/pynq_z2_top.sv`](https://github.com/cshieldsce/risc-vi/blob/main/src/pynq_z2_top.sv)
 - Clock target: {{ site.results.clock_target_mhz }} MHz (period {{ site.results.clock_target_period_ns }} ns, closed with positive slack)
 
 ## Resource utilization {#utilization}
@@ -48,7 +48,7 @@ The placed-and-routed design on the Zynq-7000 fabric, captured from the Vivado d
 
 <div class="img-wrapper screenshot">
   <img src="{{ '/images/vivado-implementation-device.png' | relative_url }}" alt="Vivado implementation device view: placed cells on the Zynq-7000 FPGA fabric, with most of the device unused">
-  <span class="caption">Post-implementation placement on the Zynq-7000 fabric. The lit-up region shows the riscv-5 core; the rest of the device is unused.</span>
+  <span class="caption">Post-implementation placement on the Zynq-7000 fabric. The lit-up region shows the risc-vi core; the rest of the device is unused.</span>
 </div>
 
 ## Lessons from bring-up {#lessons}
@@ -80,6 +80,6 @@ A short video of the program running on the board. The same Fibonacci binary tha
 
 ## Reproducing the build {#reproduce}
 
-- Bitstream and synthesis scripts live under [`fpga/`](https://github.com/cshieldsce/riscv-5/tree/main/fpga) in the repo.
-- The Fibonacci hex image used above: [`test/mem/fib_test.mem`](https://github.com/cshieldsce/riscv-5/blob/main/test/mem/fib_test.mem).
+- Bitstream and synthesis scripts live under [`fpga/`](https://github.com/cshieldsce/risc-vi/tree/main/fpga) in the repo.
+- The Fibonacci hex image used above: [`test/mem/fib_test.mem`](https://github.com/cshieldsce/risc-vi/blob/main/test/mem/fib_test.mem).
 - End-to-end build steps (Vivado project generation, bitstream, board flash): [Setup]({{ '/setup/' | relative_url }}#fpga-deployment).

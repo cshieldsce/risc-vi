@@ -1,6 +1,6 @@
 ---
 layout: default
-title: riscv-5
+title: risc-vi
 hero: true
 permalink: /
 image: /images/pipeline_complete.svg
@@ -17,12 +17,12 @@ image: /images/pipeline_complete.svg
     <p class="hero-links">
       <a class="primary" href="{{ '/architecture/' | relative_url }}">Architecture</a>
       <a href="{{ '/verification/' | relative_url }}">Verification</a>
-      <a href="https://github.com/cshieldsce/riscv-5">Source on GitHub</a>
+      <a href="https://github.com/cshieldsce/risc-vi">Source on GitHub</a>
     </p>
   </div>
   <div class="hero-figure">
     <img src="{{ '/images/pipeline_complete.svg' | relative_url }}"
-         alt="riscv-5 datapath: five pipeline stages with forwarding paths and hazard logic">
+         alt="risc-vi datapath: five pipeline stages with forwarding paths and hazard logic">
   </div>
 </section>
 
@@ -30,7 +30,7 @@ image: /images/pipeline_complete.svg
 
 A single-cycle CPU has to be slow on purpose: every clock has to be long enough for a signal to traverse the entire datapath from instruction fetch to register writeback, so the critical path is the whole machine. A pipelined CPU breaks that critical path into shorter stages separated by registers. Each clock only has to cover one stage. In steady state, one instruction completes every cycle even though any individual instruction still takes five cycles end to end.
 
-`riscv-5` has the five canonical stages. **IF** holds the program counter and fetches the next instruction from a small ROM. **ID** decodes the instruction word, reads up to two registers from the register file, and produces an immediate value sign-extended to 32 bits. **EX** runs the ALU, computes branch targets, and resolves whether a branch is taken. **MEM** does loads and stores against the data memory and handles byte-enable masking for sub-word access. **WB** writes a result back into the register file. Pipeline registers between every pair of stages carry the in-flight architectural state forward each clock.
+`risc-vi` has the five canonical stages. **IF** holds the program counter and fetches the next instruction from a small ROM. **ID** decodes the instruction word, reads up to two registers from the register file, and produces an immediate value sign-extended to 32 bits. **EX** runs the ALU, computes branch targets, and resolves whether a branch is taken. **MEM** does loads and stores against the data memory and handles byte-enable masking for sub-word access. **WB** writes a result back into the register file. Pipeline registers between every pair of stages carry the in-flight architectural state forward each clock.
 
 The interesting part of any pipeline is not the stages themselves, but what happens when they collide. Two instructions in flight can want the same data at the same time, with the producer one or two slots ahead of the consumer. A taken branch can change the PC after later instructions have already been fetched. The pipeline has to either bypass the right value into the right place at the right cycle (forwarding), pause a stage until the value is ready (stalling), or throw away wrongly-fetched instructions (flushing). Those three mechanisms, and the code that arbitrates between them, are most of the actual complexity in the design. The [Hazards & Forwarding]({{ '/architecture/hazards/' | relative_url }}) page walks through every case with timing diagrams.
 
