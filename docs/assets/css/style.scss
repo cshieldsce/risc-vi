@@ -304,7 +304,10 @@ body.has-sidebar .layout {
   width: 100%;
   height: auto;
   display: block;
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
 }
+.hero-figure img:hover { transform: scale(1.01) translateY(-2px); }
 
 /* --- Results strip -------------------------------------------------- */
 /* auto-fit lets the strip re-flow when a card is conditionally hidden
